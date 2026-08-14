@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { History, LayoutDashboard, PenSquare } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { History, LayoutDashboard, LogOut, PenSquare } from "lucide-react";
 
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -11,6 +11,13 @@ const NAV_ITEMS = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
+    router.refresh();
+  };
 
   return (
     <aside className="hidden w-64 shrink-0 flex-col border-r border-slate-200 bg-white md:flex">
@@ -44,6 +51,14 @@ export default function Sidebar() {
       </nav>
 
       <div className="border-t border-slate-200 p-4">
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="mb-3 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900"
+        >
+          <LogOut className="h-4.5 w-4.5" strokeWidth={2} />
+          Log out
+        </button>
         <div className="rounded-lg bg-slate-50 p-3">
           <p className="text-xs font-medium text-slate-700">Readability Engine</p>
           <p className="mt-1 text-xs text-slate-500">
