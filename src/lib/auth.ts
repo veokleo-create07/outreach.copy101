@@ -20,7 +20,9 @@ async function expectedSessionToken(): Promise<string> {
 }
 
 export function verifyCredentials(name: string, password: string): boolean {
-  return name === process.env.AUTH_NAME && password === process.env.AUTH_PASSWORD;
+  const expectedName = process.env.AUTH_NAME?.trim() ?? "";
+  const expectedPassword = process.env.AUTH_PASSWORD?.trim() ?? "";
+  return name.trim() === expectedName && password === expectedPassword;
 }
 
 export async function createSessionToken(): Promise<string> {
